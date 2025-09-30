@@ -1,24 +1,11 @@
 plugins {
-    id 'java'
-    id 'com.github.kt3k.coveralls' version '2.12.0'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.12.2'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation 'junit:junit:4.13.2'
-}
-
-coveralls {
-    // Add any coveralls specific configuration here
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
