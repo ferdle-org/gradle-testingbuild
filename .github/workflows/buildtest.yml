@@ -1,0 +1,25 @@
+name: Test Build Pull Request
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Gradle (disable cache for test)
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '6.8.3' # Quotes required to prevent YAML converting to number
+          cache-disabled: true
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Build and Test
+        run: chmod +x gradlew && ./gradlew --refresh-dependencies clean test jacocoTestReport coveralls
+      - name: Verify Javadoc
+        run: ./gradlew javadoc
